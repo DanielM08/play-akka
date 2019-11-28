@@ -23,6 +23,9 @@ public class HomeController extends Controller {
 
 
     public Result index() {
+    	
+		Main.main();
+    	
         return ok(views.html.index.render());
     }
 

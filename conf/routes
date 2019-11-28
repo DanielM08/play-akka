@@ -4,6 +4,7 @@
 
 # An example controller showing a sample home page
 GET     /                     controllers.AkkaController.sayHello()
+GET 	/cassandra			  controllers.HomeController.index()
 GET     /hello                controllers.HomeController.sayHello()
 GET     /hi/*name             controllers.HomeController.sayHi(name)
 

@@ -21,7 +21,7 @@ public class CassandraActor extends AbstractActor {
 		//session = cluster.connect("example_play");
 		System.out.printf("@@@@@@@Connected to cluster: %s\n", metadata.getClusterName());
 	}
-
+	
 	public String queryUser(Integer i) {
 		ResultSet results = CassandraOp.queryData("DeputyExpenses", i);
 		String line = "";

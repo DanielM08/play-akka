@@ -73,7 +73,7 @@ public class StorageSearchResults {
 			for (String name : aboveAverage.keySet()) {				
 				Double value = aboveAverage.get(name);
 				
-				toReturn += "Tipo gasto: " + name + " - Valor excedente: "+ Double.toString(value) + "\n";				
+				toReturn += name + " - "+ Double.toString(value) + "\n";				
 			}
 		}
 		

@@ -1,0 +1,8 @@
+/actors_test/
+/akka/
+/application.conf
+/controllers/
+/logback.xml
+/messages/
+/routes
+/views/

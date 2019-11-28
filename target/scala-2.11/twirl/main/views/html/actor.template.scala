@@ -32,8 +32,15 @@ object actor extends _root_.play.twirl.api.BaseScalaTemplate[play.twirl.api.Html
 
 Seq[Any](format.raw/*2.1*/("""
 """),_display_(/*3.2*/main("Page Title")/*3.20*/ {_display_(Seq[Any](format.raw/*3.22*/("""
-  """),format.raw/*4.3*/("""<h1>"""),_display_(/*4.8*/msg),format.raw/*4.11*/("""</h1>
-""")))}),format.raw/*5.2*/("""
+
+	"""),format.raw/*5.2*/("""<h1> """),_display_(/*5.8*/msg),format.raw/*5.11*/(""" """),format.raw/*5.12*/("""<h1>
+
+ 	<!-- <ul>
+		"""),_display_(/*8.4*/for(m <- msg) yield /*8.17*/ {_display_(Seq[Any](format.raw/*8.19*/("""
+  			"""),format.raw/*9.6*/("""<li>"""),_display_(/*9.11*/m),format.raw/*9.12*/("""</li>
+		""")))}),format.raw/*10.4*/("""
+	"""),format.raw/*11.2*/("""</ul> -->
+""")))}),format.raw/*12.2*/("""
 """))
       }
     }
@@ -50,11 +57,11 @@ Seq[Any](format.raw/*2.1*/("""
 
               /*
                   -- GENERATED --
-                  DATE: Wed Nov 27 18:29:14 BRT 2019
+                  DATE: Thu Nov 28 13:43:21 BRT 2019
                   SOURCE: /home/danielmarx/Documents/TI/8ºSemestre/Concorrente/Akka/exemplo-play/example-play-akka-master/app/views/actor.scala.html
-                  HASH: 6d809f268ec9ba761dd4475a050ff784fb5a4e3c
-                  MATRIX: 948->1|1055->15|1082->17|1108->35|1147->37|1176->40|1206->45|1229->48|1265->55
-                  LINES: 28->1|33->2|34->3|34->3|34->3|35->4|35->4|35->4|36->5
+                  HASH: 784531831dda4ccc882bb758feed4713d1aed60d
+                  MATRIX: 948->1|1055->15|1082->17|1108->35|1147->37|1176->40|1207->46|1230->49|1258->50|1304->71|1332->84|1371->86|1403->92|1434->97|1455->98|1494->107|1523->109|1564->120
+                  LINES: 28->1|33->2|34->3|34->3|34->3|36->5|36->5|36->5|36->5|39->8|39->8|39->8|40->9|40->9|40->9|41->10|42->11|43->12
                   -- GENERATED --
               */
           
