@@ -1,8 +1,5 @@
 package akka.actors;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.OneForOneStrategy;
@@ -18,6 +15,7 @@ import akka.routing.Routee;
 import akka.routing.Router;
 import akka.utilities.Requests;
 import akka.utilities.ResultAkka;
+import akka.utilities.ResultRequest;
 import akka.utilities.MsgQuery;
 import scala.concurrent.duration.Duration;
 
@@ -53,15 +51,14 @@ public class MasterActor extends AbstractActor {
 //				router.route(i, getSender());
 //			}
 //		})
-						
-		.match(String.class, msg -> {
-			memoryActor.tell(msg, getSelf());
-		}).match(StorageInformation.class, msg -> {
+		.match(Requests.class, msg -> { 
 			System.out.println("1º");
 			searchActor.tell(msg, getSelf());
-		}).match(Requests.class, msg -> { // Recebe Request.class dos usuários,
-											// mas tem que esperar tudo carregar na memória para responder
+		}).match(ResultRequest.class, msg -> {
 			System.out.println("2º");
+			memoryActor.tell(msg, getSelf());
+		}).match(StorageInformation.class, msg -> {
+			System.out.println("3º");		
 			searchActor.tell(msg, getSelf());
 		}).match(StorageSearchResults.class, msg -> {
 			System.out.println("3º");

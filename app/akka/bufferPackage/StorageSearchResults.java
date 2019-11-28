@@ -26,7 +26,7 @@ public class StorageSearchResults {
 	
 	public void setValueAndLocation(String key, double excedent, String local, Double value)
 	{
-		System.out.println(key);
+		//System.out.println(key);
 		setValue(key, excedent);
 		setLocationOccurrence(key, local, value);
 	}

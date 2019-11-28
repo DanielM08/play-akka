@@ -34,13 +34,10 @@ public class AkkaController extends Controller {
 	public CompletionStage<Result> sayHello() throws InterruptedException {
 		Timeout timeout = new Timeout(5, TimeUnit.SECONDS);
 				
-		master.tell("/home/danielmarx/Documents/TI/8ºSemestre/Concorrente/ProjetoDisciplina/Ano-2017.csv", master);
-
-		Thread.sleep(20000);
 		Requests req = new Requests("EVAIR VIEIRA DE MELO", "2009-03-31", "2019-03-31");
 		master.tell(req, master);
 		
-		Thread.sleep(10000);
+		Thread.sleep(20000);
 		
 		return FutureConverters.toJava(ask(master, new ResultAkka(), timeout))
 				.thenApply(response -> ok(views.html.actor.render(response.toString())));

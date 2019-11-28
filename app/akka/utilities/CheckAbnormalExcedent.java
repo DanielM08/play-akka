@@ -9,19 +9,16 @@ public class CheckAbnormalExcedent {
 	{
 		if(txtDescription.equals("Emissão Bilhete Aéreo"))
 		{
-			if(amount > 0)		
-				//return amount - 488;
-				return amount;
+			if(amount > 488)		
+				return amount - 488;				
 			else
 				return 0;			
 		}
 		
 		if(txtDescription.equals("COMBUSTÍVEIS E LUBRIFICANTES."))
-		{
-			System.out.println(amount);
-			if(amount > 0)						
-				return amount;
-				//return amount - 265;		
+		{			
+			if(amount > 265)						
+				return amount - 265;					
 			else
 				return 0;			
 		}

@@ -13,6 +13,7 @@ import akka.actor.AbstractActor;
 import akka.actor.Props;
 import akka.bufferPackage.BufferRow;
 import akka.bufferPackage.StorageInformation;
+import akka.utilities.ResultRequest;
 
 public class MemoryActor extends AbstractActor {
 
@@ -26,10 +27,12 @@ public class MemoryActor extends AbstractActor {
 
 	//private Map<String, Integer> finalReducedMap = new HashMap<String, Integer>();
 	
+	private final String path = "/home/danielmarx/Documents/TI/8ºSemestre/Concorrente/ProjetoDisciplina/Ano-2017.csv";
+	
 	@Override
 	public Receive createReceive() {
-		return receiveBuilder().match(String.class, msg -> {
-			getSender().tell(uploadDatabase(msg), getSelf());
+		return receiveBuilder().match(ResultRequest.class, msg -> {
+			getSender().tell(uploadDatabase(path), getSelf());
 		})
 		.build();
 	}

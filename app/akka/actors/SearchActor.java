@@ -13,7 +13,7 @@ import akka.bufferPackage.StorageInformation;
 import akka.bufferPackage.StorageSearchResults;
 import akka.utilities.CheckAbnormalExcedent;
 import akka.utilities.Requests;
-import akka.utilities.ResultMemory;
+import akka.utilities.ResultRequest;
 
 public class SearchActor extends AbstractActor{
 	
@@ -47,17 +47,23 @@ public class SearchActor extends AbstractActor{
 		return Props.create(SearchActor.class);
 	}
 
+	private Requests requests;
+	
 	//private Map<String, Integer> finalReducedMap = new HashMap<String, Integer>();
 	
 	@Override
 	public Receive createReceive() {
 		return receiveBuilder()
+				.match(Requests.class, msg-> {
+					requests = msg;
+					getSender().tell(new ResultRequest(), getSelf());
+					//makeSearch(msg.getNome(), msg.getDataInicio(), msg.getDataFim()), getSelf());
+				})
 				.match(StorageInformation.class, dataB-> {
-					System.out.println(dataB.getSize() + "SearchActor");
+					System.out.println(dataB.getSize() + " SearchActor");
 					dataBase = dataB;
-					getSender().tell(new ResultMemory(), getSelf());										
-				}).match(Requests.class, msg-> {
-					getSender().tell(makeSearch(msg.getNome(), msg.getDataInicio(), msg.getDataFim()), getSelf());
+					getSender().tell(makeSearch(requests.getNome(), requests.getDataInicio(), requests.getDataFim()), getSelf());
+					//new ResultMemory(), getSelf());										
 				})	
 			.build();
 	}
@@ -93,6 +99,5 @@ public class SearchActor extends AbstractActor{
 			e.printStackTrace();
 		}				
 		return null;
-	}
-	
+	}	
 }

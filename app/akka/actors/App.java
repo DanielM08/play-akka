@@ -23,15 +23,13 @@ public class App
     	
     	ActorSystem  _system = ActorSystem.create("App");
     	ActorRef  master = _system.actorOf(MasterActor.props(), "master");
-    	master.tell("/home/danielmarx/Documents/TI/8ºSemestre/Concorrente/ProjetoDisciplina/Ano-2017.csv", master);
+    	//master.tell("/home/danielmarx/Documents/TI/8ºSemestre/Concorrente/ProjetoDisciplina/Ano-2017.csv", master);
     	
-		Thread.sleep(20000);    
     	Requests req = new Requests("EVAIR VIEIRA DE MELO", "2009-03-31", "2019-03-31");    	    	    	
     	master.tell(req, master);    	
     	
-
     	//System.out.println("Olá");
-    	Thread.sleep(10000); 
+    	Thread.sleep(20000); 
     	Future<Object> future = Patterns.ask(master, new ResultAkka(), timeout);
     	String result = (String) Await.result(future, timeout.duration());
     	System.out.println(result);
