@@ -40,12 +40,8 @@ public class Manager {
 			consumerRecords.forEach(record -> {
 
 				System.out.println("CHEGANDO NO CONSUMIDOR: " + record.value());
-
-
-				// AQUI FICA O PROCESSAMENTO DAS MENSAGENS, OU SEJA, MANDAR PRO CASSANDRA				
+						
 				String[] parts = record.value().split(",");					
-//				System.out.println(parts);
-
 
 				// ARMAZENAR NO CASSANDRA
 				try{
@@ -79,7 +75,6 @@ public class Manager {
 
 		int id = 0;
 
-		// enquanto tiver linhas
 		while ((line = archive.getLine()) != "") {
 
 			if (line == "skip")
@@ -89,12 +84,9 @@ public class Manager {
 
 			String message = String.valueOf(id) + "," + line;
 
-			// par chave(nome do tópico)/valor a ser enviado pro kafka.
 			final ProducerRecord<Long, String> record = new ProducerRecord<Long, String>(IKafkaConstants.TOPIC_NAME,
-					message);
-			
+					message);			
 			try {
-				// envia dado pro servidor kafka
 				RecordMetadata metadata = producer.send(record).get();
 				System.out.println("Record sent with key " + message + " to partition " + metadata.partition()
 						+ " with offset " + metadata.offset());

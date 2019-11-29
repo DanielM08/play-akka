@@ -1,9 +1,15 @@
 package akka.cassandra;
 
 import akka.actor.*;
+import akka.bufferPackage.BufferRow;
+
 import com.datastax.driver.core.Metadata;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 
 public class CassandraActor extends AbstractActor {
@@ -15,21 +21,40 @@ public class CassandraActor extends AbstractActor {
 		return Props.create(CassandraActor.class);
 	}
 	
+	SimpleDateFormat sdfo = new SimpleDateFormat("yyyy-MM-dd");
+	
 	public CassandraActor() {
-		//cluster = Cluster.builder().addContactPoint("127.0.0.1").withCredentials("cassandra", "cassandra").build();
-		Metadata metadata = CassandraOp.getMetadata();
-		//session = cluster.connect("example_play");
+		CassandraOp.startConnection();		
+		CassandraOp.startSession("expenses");
+		
+		Metadata metadata = CassandraOp.getMetadata();		
 		System.out.printf("@@@@@@@Connected to cluster: %s\n", metadata.getClusterName());
 	}
 	
-	public String queryUser(Integer i) {
+	public BufferRow queryUser(Integer i) {
 		ResultSet results = CassandraOp.queryData("DeputyExpenses", i);
-		String line = "";
+				
+		BufferRow br = null;
+		
 		for (Iterator<Row> iterator = results.iterator(); iterator.hasNext();) {
-			Row row = iterator.next();
-			line += row.getString("nome") + "\n";
+			Row row = iterator.next();				
+
+			double amount = Double.parseDouble(row.getString("amount"));			
+			Date date = null;
+			
+			try {
+				String dateToConvert = row.getString("date").substring(0, 10);
+				Date d1 = sdfo.parse(dateToConvert);
+				date = d1;
+			} catch (ParseException e) {
+				// Ignore Error
+			}
+			
+			br = new BufferRow(row.getString("name"), row.getString("expense_description"), 
+					row.getString("provider"), date, amount);
+			break;
 		}
-		return line;
+		return br;
 	}
 	
 	@Override

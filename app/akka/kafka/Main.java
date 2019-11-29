@@ -1,4 +1,4 @@
-package controllers;
+package akka.kafka;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -7,13 +7,12 @@ import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 
 import akka.cassandra.CassandraOp;
-import akka.kafka.Manager;
 
 public class Main {
 
 	public static void main() throws IOException {
 
-		/* TESTE KAFKA */
+		/* KAFKA */
 		
 		CassandraOp.startConnection();
 		CassandraOp.startSession("expenses");
@@ -41,8 +40,10 @@ public class Main {
 			System.out.println(message);
 			
 		}*/
-		//TESTE CASSANDRA
-	/*	  
+		
+		//CASSANDRA
+	
+		/*	  
 		long tempoInicial = System.currentTimeMillis();
 				
 		CassandraOp.startConnection();

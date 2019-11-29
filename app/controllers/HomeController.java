@@ -3,13 +3,11 @@ package controllers;
 import akka.actor.*;
 import play.mvc.*;
 import scala.compat.java8.FutureConverters;
-import javax.inject.*;
 
 import actors_test.*;
 
 import java.util.concurrent.CompletionStage;
 
-import messages.*;
 import static akka.pattern.Patterns.ask;
 
 /**
@@ -18,13 +16,12 @@ import static akka.pattern.Patterns.ask;
  */
 public class HomeController extends Controller {
 
+	/*
     final ActorSystem actorSystem = ActorSystem.create("playakka");
     final ActorRef helloActor = actorSystem.actorOf(HelloActor.props());
 
 
     public Result index() {
-    	
-		Main.main();
     	
         return ok(views.html.index.render());
     }
@@ -40,15 +37,14 @@ public class HomeController extends Controller {
               ask(helloActor, "Hi "+name, 2000))
                   .thenApply(response -> ok(views.html.actor.render(response.toString())));
     }
-
+    /*
     final ActorRef sparkActor = actorSystem.actorOf(SparkActor.props());
     public CompletionStage<Result> sparkHello() {
           return FutureConverters.toJava(
               ask(sparkActor, "Hi ", 2000))
                   .thenApply(response -> ok(views.html.actor.render(response.toString())));
     }
-
-
+	
     // Uncomment the code below for running without Cassandra (*AND UNCOMMENT THE RESPECTIVE ROUTE)
     final ActorRef dbActor = actorSystem.actorOf(DbActor.props());
     public CompletionStage<Result> requestUser(String name) {
@@ -56,6 +52,6 @@ public class HomeController extends Controller {
               ask(dbActor, Integer.parseInt(name), 2000))
                   .thenApply(response -> ok(views.html.actor.render(response.toString())));
     }
-
+    */
 
 }

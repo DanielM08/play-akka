@@ -2,19 +2,19 @@ package controllers;
 
 import akka.actor.*;
 import akka.actors.MasterActor;
+import akka.kafka.Main;
 import akka.util.Timeout;
 import akka.utilities.Requests;
 import akka.utilities.ResultAkka;
 import play.mvc.*;
 import scala.compat.java8.FutureConverters;
-import javax.inject.*;
 
 import actors_test.*;
 
+import java.io.IOException;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.TimeUnit;
 
-import messages.*;
 import static akka.pattern.Patterns.ask;
 
 /**
@@ -27,11 +27,14 @@ public class AkkaController extends Controller {
 	final ActorRef helloActor = actorSystem.actorOf(HelloActor.props());
 	final ActorRef master = actorSystem.actorOf(MasterActor.props(), "master");
 
-	public Result index() {
+	public Result index() throws IOException {
+		
+		Main.main();
+		
 		return ok(views.html.index.render());
 	}
 
-	public CompletionStage<Result> sayHello() throws InterruptedException {
+	public CompletionStage<Result> makeSearch() throws InterruptedException {
 		Timeout timeout = new Timeout(5, TimeUnit.SECONDS);
 				
 		Requests req = new Requests("EVAIR VIEIRA DE MELO", "2009-03-31", "2019-03-31");
@@ -42,12 +45,13 @@ public class AkkaController extends Controller {
 		return FutureConverters.toJava(ask(master, new ResultAkka(), timeout))
 				.thenApply(response -> ok(views.html.actor.render(response.toString())));
 	}
-
+	/*
 	public CompletionStage<Result> sayHi(String name) {
 		return FutureConverters.toJava(ask(helloActor, "Hi " + name, 2000))
 				.thenApply(response -> ok(views.html.actor.render(response.toString())));
 	}
 
+	/*
 	final ActorRef sparkActor = actorSystem.actorOf(SparkActor.props());
 
 	public CompletionStage<Result> sparkHello() {
@@ -63,5 +67,5 @@ public class AkkaController extends Controller {
 		return FutureConverters.toJava(ask(dbActor, Integer.parseInt(name), 2000))
 				.thenApply(response -> ok(views.html.actor.render(response.toString())));
 	}
-
+	*/
 }

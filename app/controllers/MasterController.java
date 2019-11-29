@@ -18,14 +18,15 @@ import static akka.pattern.Patterns.ask;
  */
 public class MasterController extends Controller {
 
+/*
   final ActorSystem actorSystem = ActorSystem.create("playakka");
   final ActorRef masterActor = actorSystem.actorOf(MasterActor.props());
-
+  
   public CompletionStage<Result> selectAll() {
         masterActor.tell(new MsgQuery(5), masterActor);
         return FutureConverters.toJava(
             ask(masterActor, new ResultRequest(), 2000))
                 .thenApply(response -> ok(views.html.actor.render(response.toString())));
   }
-
+  */
 }
