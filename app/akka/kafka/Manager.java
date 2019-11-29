@@ -26,7 +26,11 @@ public class Manager {
 			final ConsumerRecords<Long, String> consumerRecords = consumer.poll(1000);
 
 			if (consumerRecords.count() == 0) {
+
 				noMessageToFetch++;
+
+				System.out.println("NO MESSAGE TO FETCH: " + String.valueOf(noMessageToFetch));
+
 				if (noMessageToFetch > IKafkaConstants.MAX_NO_MESSAGE_FOUND_COUNT)
 					break;
 				else
@@ -35,16 +39,23 @@ public class Manager {
 
 			consumerRecords.forEach(record -> {
 
-				System.out.println(record.value());
+				System.out.println("CHEGANDO NO CONSUMIDOR: " + record.value());
 
-				// AQUI FICA O PROCESSAMENTO DAS MENSAGENS, OU SEJA, MANDAR PRO CASSANDRA
-				String[] parts = record.value().split(";");
+
+				// AQUI FICA O PROCESSAMENTO DAS MENSAGENS, OU SEJA, MANDAR PRO CASSANDRA				
+				String[] parts = record.value().split(",");					
+//				System.out.println(parts);
+
 
 				// ARMAZENAR NO CASSANDRA
-				String[] colunasInsert = { "id", "name", "expense_description", "provider", "date", "amount" };
-				String[] valoresInsert = { parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6]};
+				try{
+					String[] colunasInsert = { "id", "name", "expense_description", "provider", "date", "amount" };
+					String[] valoresInsert = { parts[0], parts[1], parts[2], parts[3], parts[4], parts[5]};
 
-				CassandraOp.insertData("DeputyExpenses", colunasInsert, valoresInsert);
+					CassandraOp.insertData("DeputyExpenses", colunasInsert, valoresInsert);
+				}catch(Exception e) {				
+					System.out.println("Foda-se");
+				}
 
 			});
 
@@ -69,10 +80,12 @@ public class Manager {
 		int id = 0;
 
 		// enquanto tiver linhas
-		while ((line = archive.getLine()) != "FIM") {
+		while ((line = archive.getLine()) != "") {
 
-			if (line == "")
+			if (line == "skip")
 				continue;
+			if(id == 100)
+				break;
 
 			String message = String.valueOf(id) + "," + line;
 
@@ -93,7 +106,8 @@ public class Manager {
 				System.out.println("Error in sending record");
 				System.out.println(e);
 			}
-		}
-		id += 1;
+			
+			id += 1;
+		}		
 	}
 }

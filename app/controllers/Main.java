@@ -1,26 +1,28 @@
 package controllers;
 
+import java.io.IOException;
 import java.util.Iterator;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 
 import akka.cassandra.CassandraOp;
+import akka.kafka.Manager;
 
 public class Main {
 
-	public static void main() {
+	public static void main() throws IOException {
 
 		/* TESTE KAFKA */
 		
-		CassandraConnector.startConnection();
-		CassandraConnector.startSession("expenses");
+		CassandraOp.startConnection();
+		CassandraOp.startSession("expenses");
 		
 		Manager.runProducer();
 		Manager.runConsumer();
 		
 		
-		CassandraConnector.closeConnection();
+		CassandraOp.closeConnection();
 		
 		
 		/*ArchiveRead archive = null;
