@@ -1,6 +1,6 @@
 // @GENERATOR:play-routes-compiler
-// @SOURCE:/home/danielmarx/Documents/TI/8ºSemestre/Concorrente/Akka/exemplo-play/example-play-akka-master/conf/routes
-// @DATE:Wed Nov 27 22:30:38 BRT 2019
+// @SOURCE:/home/danielmarx08/play-akka/conf/routes
+// @DATE:Thu Nov 28 19:11:19 BRT 2019
 
 package controllers;
 

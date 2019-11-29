@@ -14,22 +14,24 @@ public class CassandraOp {
         return Cluster
         		.builder()
         		.addContactPoint(node)
-        		.build();  
+		 	.build();  
     }
     
     public static void startConnection() {
     	try {
         	cluster = connect("10.128.0.4");	        	
+		System.out.println("CONEXÃO INICIADA");
     	} catch (Exception e) {
     		System.out.println("CONEXÃO INCOMPLETA");
 		}
     }
     
-    public static void startSession(String KeySpaceName) {
+    public static void startSession(String keyspaceName) {
     	try {
-    		session = cluster.connect(KeySpaceName);    
-    		System.out.println("conectadoo -----");
-    	} catch (Exception e) {    		
+    		session = cluster.connect(keyspaceName);    
+    		System.out.println("SESSÃO CRIADA");
+    	} catch (Exception e) {    
+		System.out.println("SESSÃO INCOMPLETA");
 		}
     }
     
@@ -39,10 +41,10 @@ public class CassandraOp {
            
     public static void createKeyspace(String keyspaceName) {    	
     	//session = cluster.connect();
-    	System.out.println("conectadoo -----");
     	
-    	session.execute("CREATE KEYSPACE "+keyspaceName+ " WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1}");    	
-	}
+    	session.execute("CREATE KEYSPACE IF NOT EXISTS "+keyspaceName+ " WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1}");    	
+	System.out.println("KEYSPACE CRIADO");
+    }
     
     public static void deleteKeyspace( String keyspaceName ) {
     	session.execute("DROP KEYSPACE "+keyspaceName);

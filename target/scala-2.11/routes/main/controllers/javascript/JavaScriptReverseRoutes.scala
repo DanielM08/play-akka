@@ -1,6 +1,6 @@
 // @GENERATOR:play-routes-compiler
-// @SOURCE:/home/danielmarx/Documents/TI/8ºSemestre/Concorrente/Akka/exemplo-play/example-play-akka-master/conf/routes
-// @DATE:Wed Nov 27 22:30:38 BRT 2019
+// @SOURCE:/home/danielmarx08/play-akka/conf/routes
+// @DATE:Thu Nov 28 19:11:19 BRT 2019
 
 import play.api.routing.JavaScriptReverseRoute
 
@@ -11,7 +11,7 @@ import _root_.play.libs.F
 // @LINE:6
 package controllers.javascript {
 
-  // @LINE:14
+  // @LINE:15
   class ReverseMasterController(_prefix: => String) {
 
     def _defaultPrefix: String = {
@@ -19,7 +19,7 @@ package controllers.javascript {
     }
 
   
-    // @LINE:14
+    // @LINE:15
     def selectAll: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.MasterController.selectAll",
       """
@@ -59,7 +59,17 @@ package controllers.javascript {
     }
 
   
-    // @LINE:11
+    // @LINE:9
+    def sayHi: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.HomeController.sayHi",
+      """
+        function(name0) {
+          return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "hi/" + (""" + implicitly[play.api.mvc.PathBindable[String]].javascriptUnbind + """)("name", name0)})
+        }
+      """
+    )
+  
+    // @LINE:12
     def requestUser: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.HomeController.requestUser",
       """
@@ -70,16 +80,6 @@ package controllers.javascript {
     )
   
     // @LINE:8
-    def sayHi: JavaScriptReverseRoute = JavaScriptReverseRoute(
-      "controllers.HomeController.sayHi",
-      """
-        function(name0) {
-          return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "hi/" + (""" + implicitly[play.api.mvc.PathBindable[String]].javascriptUnbind + """)("name", name0)})
-        }
-      """
-    )
-  
-    // @LINE:7
     def sayHello: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.HomeController.sayHello",
       """
@@ -89,12 +89,22 @@ package controllers.javascript {
       """
     )
   
-    // @LINE:17
+    // @LINE:18
     def sparkHello: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.HomeController.sparkHello",
       """
         function() {
           return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "spark"})
+        }
+      """
+    )
+  
+    // @LINE:7
+    def index: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.HomeController.index",
+      """
+        function() {
+          return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "cassandra"})
         }
       """
     )

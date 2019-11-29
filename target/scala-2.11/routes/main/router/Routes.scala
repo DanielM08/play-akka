@@ -1,6 +1,6 @@
 // @GENERATOR:play-routes-compiler
-// @SOURCE:/home/danielmarx/Documents/TI/8ºSemestre/Concorrente/Akka/exemplo-play/example-play-akka-master/conf/routes
-// @DATE:Wed Nov 27 22:30:38 BRT 2019
+// @SOURCE:/home/danielmarx08/play-akka/conf/routes
+// @DATE:Thu Nov 28 19:11:19 BRT 2019
 
 package router
 
@@ -18,7 +18,7 @@ class Routes(
   AkkaController_2: controllers.AkkaController,
   // @LINE:7
   HomeController_1: controllers.HomeController,
-  // @LINE:14
+  // @LINE:15
   MasterController_0: controllers.MasterController,
   val prefix: String
 ) extends GeneratedRouter {
@@ -29,7 +29,7 @@ class Routes(
     AkkaController_2: controllers.AkkaController,
     // @LINE:7
     HomeController_1: controllers.HomeController,
-    // @LINE:14
+    // @LINE:15
     MasterController_0: controllers.MasterController
   ) = this(errorHandler, AkkaController_2, HomeController_1, MasterController_0, "/")
 
@@ -44,6 +44,7 @@ class Routes(
 
   def documentation = List(
     ("""GET""", this.prefix, """controllers.AkkaController.sayHello()"""),
+    ("""GET""", this.prefix + (if(this.prefix.endsWith("/")) "" else "/") + """cassandra""", """controllers.HomeController.index()"""),
     ("""GET""", this.prefix + (if(this.prefix.endsWith("/")) "" else "/") + """hello""", """controllers.HomeController.sayHello()"""),
     ("""GET""", this.prefix + (if(this.prefix.endsWith("/")) "" else "/") + """hi/""" + "$" + """name<.+>""", """controllers.HomeController.sayHi(name:String)"""),
     ("""GET""", this.prefix + (if(this.prefix.endsWith("/")) "" else "/") + """requestinfo/""" + "$" + """name<.+>""", """controllers.HomeController.requestUser(name:String)"""),
@@ -75,10 +76,28 @@ class Routes(
   )
 
   // @LINE:7
-  private[this] lazy val controllers_HomeController_sayHello1_route = Route("GET",
+  private[this] lazy val controllers_HomeController_index1_route = Route("GET",
+    PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("cassandra")))
+  )
+  private[this] lazy val controllers_HomeController_index1_invoker = createInvoker(
+    HomeController_1.index(),
+    play.api.routing.HandlerDef(this.getClass.getClassLoader,
+      "router",
+      "controllers.HomeController",
+      "index",
+      Nil,
+      "GET",
+      this.prefix + """cassandra""",
+      """""",
+      Seq()
+    )
+  )
+
+  // @LINE:8
+  private[this] lazy val controllers_HomeController_sayHello2_route = Route("GET",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("hello")))
   )
-  private[this] lazy val controllers_HomeController_sayHello1_invoker = createInvoker(
+  private[this] lazy val controllers_HomeController_sayHello2_invoker = createInvoker(
     HomeController_1.sayHello(),
     play.api.routing.HandlerDef(this.getClass.getClassLoader,
       "router",
@@ -92,11 +111,11 @@ class Routes(
     )
   )
 
-  // @LINE:8
-  private[this] lazy val controllers_HomeController_sayHi2_route = Route("GET",
+  // @LINE:9
+  private[this] lazy val controllers_HomeController_sayHi3_route = Route("GET",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("hi/"), DynamicPart("name", """.+""",false)))
   )
-  private[this] lazy val controllers_HomeController_sayHi2_invoker = createInvoker(
+  private[this] lazy val controllers_HomeController_sayHi3_invoker = createInvoker(
     HomeController_1.sayHi(fakeValue[String]),
     play.api.routing.HandlerDef(this.getClass.getClassLoader,
       "router",
@@ -110,11 +129,11 @@ class Routes(
     )
   )
 
-  // @LINE:11
-  private[this] lazy val controllers_HomeController_requestUser3_route = Route("GET",
+  // @LINE:12
+  private[this] lazy val controllers_HomeController_requestUser4_route = Route("GET",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("requestinfo/"), DynamicPart("name", """.+""",false)))
   )
-  private[this] lazy val controllers_HomeController_requestUser3_invoker = createInvoker(
+  private[this] lazy val controllers_HomeController_requestUser4_invoker = createInvoker(
     HomeController_1.requestUser(fakeValue[String]),
     play.api.routing.HandlerDef(this.getClass.getClassLoader,
       "router",
@@ -128,11 +147,11 @@ class Routes(
     )
   )
 
-  // @LINE:14
-  private[this] lazy val controllers_MasterController_selectAll4_route = Route("GET",
+  // @LINE:15
+  private[this] lazy val controllers_MasterController_selectAll5_route = Route("GET",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("selectall")))
   )
-  private[this] lazy val controllers_MasterController_selectAll4_invoker = createInvoker(
+  private[this] lazy val controllers_MasterController_selectAll5_invoker = createInvoker(
     MasterController_0.selectAll(),
     play.api.routing.HandlerDef(this.getClass.getClassLoader,
       "router",
@@ -146,11 +165,11 @@ class Routes(
     )
   )
 
-  // @LINE:17
-  private[this] lazy val controllers_HomeController_sparkHello5_route = Route("GET",
+  // @LINE:18
+  private[this] lazy val controllers_HomeController_sparkHello6_route = Route("GET",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("spark")))
   )
-  private[this] lazy val controllers_HomeController_sparkHello5_invoker = createInvoker(
+  private[this] lazy val controllers_HomeController_sparkHello6_invoker = createInvoker(
     HomeController_1.sparkHello(),
     play.api.routing.HandlerDef(this.getClass.getClassLoader,
       "router",
@@ -174,33 +193,39 @@ class Routes(
       }
   
     // @LINE:7
-    case controllers_HomeController_sayHello1_route(params@_) =>
+    case controllers_HomeController_index1_route(params@_) =>
       call { 
-        controllers_HomeController_sayHello1_invoker.call(HomeController_1.sayHello())
+        controllers_HomeController_index1_invoker.call(HomeController_1.index())
       }
   
     // @LINE:8
-    case controllers_HomeController_sayHi2_route(params@_) =>
-      call(params.fromPath[String]("name", None)) { (name) =>
-        controllers_HomeController_sayHi2_invoker.call(HomeController_1.sayHi(name))
-      }
-  
-    // @LINE:11
-    case controllers_HomeController_requestUser3_route(params@_) =>
-      call(params.fromPath[String]("name", None)) { (name) =>
-        controllers_HomeController_requestUser3_invoker.call(HomeController_1.requestUser(name))
-      }
-  
-    // @LINE:14
-    case controllers_MasterController_selectAll4_route(params@_) =>
+    case controllers_HomeController_sayHello2_route(params@_) =>
       call { 
-        controllers_MasterController_selectAll4_invoker.call(MasterController_0.selectAll())
+        controllers_HomeController_sayHello2_invoker.call(HomeController_1.sayHello())
       }
   
-    // @LINE:17
-    case controllers_HomeController_sparkHello5_route(params@_) =>
+    // @LINE:9
+    case controllers_HomeController_sayHi3_route(params@_) =>
+      call(params.fromPath[String]("name", None)) { (name) =>
+        controllers_HomeController_sayHi3_invoker.call(HomeController_1.sayHi(name))
+      }
+  
+    // @LINE:12
+    case controllers_HomeController_requestUser4_route(params@_) =>
+      call(params.fromPath[String]("name", None)) { (name) =>
+        controllers_HomeController_requestUser4_invoker.call(HomeController_1.requestUser(name))
+      }
+  
+    // @LINE:15
+    case controllers_MasterController_selectAll5_route(params@_) =>
       call { 
-        controllers_HomeController_sparkHello5_invoker.call(HomeController_1.sparkHello())
+        controllers_MasterController_selectAll5_invoker.call(MasterController_0.selectAll())
+      }
+  
+    // @LINE:18
+    case controllers_HomeController_sparkHello6_route(params@_) =>
+      call { 
+        controllers_HomeController_sparkHello6_invoker.call(HomeController_1.sparkHello())
       }
   }
 }
