@@ -79,7 +79,7 @@ public class Manager {
 
 			if (line == "skip")
 				continue;
-			if(id == 100)
+			if(id == 100000)
 				break;
 
 			String message = String.valueOf(id) + "," + line;

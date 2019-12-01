@@ -5,7 +5,7 @@ import akka.actors.MasterActor;
 import akka.kafka.Main;
 import akka.util.Timeout;
 import akka.utilities.Requests;
-import akka.utilities.ResultAkka;
+import akka.utilities.ResultRequest;
 import play.mvc.*;
 import scala.compat.java8.FutureConverters;
 
@@ -35,14 +35,18 @@ public class AkkaController extends Controller {
 	}
 
 	public CompletionStage<Result> makeSearch() throws InterruptedException {
+	//public Result makeSearch() throws InterruptedException {
+
 		Timeout timeout = new Timeout(5, TimeUnit.SECONDS);
 				
-		Requests req = new Requests("EVAIR VIEIRA DE MELO", "2009-03-31", "2019-03-31");
+		Requests req = new Requests("ABEL MESQUITA JR.", "2009-03-31", "2019-03-31");
 		master.tell(req, master);
 		
 		Thread.sleep(20000);
-		
-		return FutureConverters.toJava(ask(master, new ResultAkka(), timeout))
+		System.out.println("Ai ai...");		
+		//return ok(views.html.index.render());
+
+		return FutureConverters.toJava(ask(master, new ResultRequest(), timeout))
 				.thenApply(response -> ok(views.html.actor.render(response.toString())));
 	}
 	/*

@@ -10,8 +10,7 @@ import akka.bufferPackage.StorageSearchResults;
 import akka.utilities.CheckAbnormalExcedent;
 import akka.utilities.Requests;
 import akka.utilities.ResultRequest;
-
-import messages.*;
+import akka.utilities.MsgQuery;
 
 public class AggregateActor extends AbstractActor {
 
@@ -52,12 +51,15 @@ public class AggregateActor extends AbstractActor {
 	@Override
 	public Receive createReceive() {
 		return receiveBuilder().match(Requests.class, msg -> {
+						
 			requests = msg;
 			firstDate = sdfo.parse(msg.getDataInicio());
 			lastDate = sdfo.parse(msg.getDataFim());
-						
-			getSender().tell(new MsgQuery(99), getSelf());
-		}).match(BufferRow.class, br -> {			
+			
+			getSender().tell(new MsgQuery(20000), getSelf());
+		}).match(BufferRow.class, br -> {		
+				
+			System.out.println("Chegou aquiiii");				
 			makeSearch(br);			
 		}).match(ResultRequest.class, s -> {
 			getSender().tell(showSearchResults(), getSelf());
@@ -66,13 +68,14 @@ public class AggregateActor extends AbstractActor {
 	
 	private void makeSearch(BufferRow br)
 	{
+		System.out.println("1º");
 		if(br.getDataTransacao() != null && br.getDataTransacao().compareTo(lastDate) < 0 && br.getDataTransacao().compareTo(firstDate) > 0)
 		{			
 			if(br.getNome().contentEquals(requests.getNome()) && CheckAbnormalExcedent.returnExcedent(br.getTipoGasto(), br.getValorLiquido()) > 0)
 			{
 				storageDept.setValueAndLocation(br.getTipoGasto(), CheckAbnormalExcedent.returnExcedent(br.getTipoGasto(), br.getValorLiquido()), br.getLocalGasto(),  br.getValorLiquido());
 			}						
-		}
+		}System.out.println("2º");
 	}
 	
 	private String showSearchResults() {

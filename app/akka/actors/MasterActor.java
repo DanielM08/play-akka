@@ -8,6 +8,7 @@ import akka.actor.ActorRef;
 import akka.actor.OneForOneStrategy;
 import akka.actor.Props;
 import akka.actor.SupervisorStrategy;
+import akka.bufferPackage.BufferRow;
 import akka.cassandra.CassandraActor;
 import akka.japi.pf.DeciderBuilder;
 import akka.routing.ActorRefRoutee;
@@ -24,8 +25,8 @@ public class MasterActor extends AbstractActor {
 		return Props.create(MasterActor.class);
 	}
 
-	ActorRef dbActor = getContext().actorOf(CassandraActor.props(), "cassandra");
-	ActorRef aggregateActor = getContext().actorOf(SearchActor.props(), "aggregate");
+	//ActorRef dbActor = getContext().actorOf(CassandraActor.props(), "cassandra");
+	ActorRef aggregateActor = getContext().actorOf(AggregateActor.props(), "aggregate");
 	
 	//ActorRef memoryActor = getContext().actorOf(MemoryActor.props(), "memory");
 	//ActorRef searchActor = getContext().actorOf(SearchActor.props(), "search");
@@ -36,7 +37,8 @@ public class MasterActor extends AbstractActor {
 	Router router;
 	{
 		List<Routee> routees = new ArrayList<Routee>();
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 5; i++) {
+			
 			ActorRef r = getContext().actorOf(Props.create(CassandraActor.class));
 			getContext().watch(r);
 			routees.add(new ActorRefRoutee(r));
@@ -54,8 +56,12 @@ public class MasterActor extends AbstractActor {
 			for (int i = 0; i < s.getN(); i++) {
 				router.route(i, getSender());
 			}
-		}).match(ResultRequest.class, msg -> {
+		}).match(BufferRow.class, msg -> {
 			System.out.println("3º");
+			aggregateActor.tell(msg, getSelf());
+		})
+		.match(ResultRequest.class, msg -> {
+			System.out.println("4º");
 			aggregateActor.forward(msg, getContext());
 		}).build();
 //				

@@ -9,8 +9,9 @@ public class CheckAbnormalExcedent {
 	{
 		if(txtDescription.equals("Emissão Bilhete Aéreo"))
 		{
-			if(amount > 488)		
-				return amount - 488;				
+			if(amount > 0)		
+				//return amount - 488;				
+				return amount;
 			else
 				return 0;			
 		}
@@ -81,8 +82,9 @@ public class CheckAbnormalExcedent {
 		
 		if(txtDescription.equals("LOCAÇÃO OU FRETAMENTO DE VEÍCULOS AUTOMOTORES"))
 		{
-			if(amount > 4351)		
-				return amount - 4351;		
+			if(amount > 0)
+				return amount;
+				//return amount - 4351;		
 			else
 				return 0;
 		}

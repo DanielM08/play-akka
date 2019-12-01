@@ -1,6 +1,6 @@
 // @GENERATOR:play-routes-compiler
 // @SOURCE:/home/danielmarx08/play-akka/conf/routes
-// @DATE:Thu Nov 28 19:11:19 BRT 2019
+// @DATE:Fri Nov 29 20:34:39 BRT 2019
 
 
 package router {

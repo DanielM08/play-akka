@@ -39,20 +39,41 @@ public class CassandraActor extends AbstractActor {
 		for (Iterator<Row> iterator = results.iterator(); iterator.hasNext();) {
 			Row row = iterator.next();				
 
-			double amount = Double.parseDouble(row.getString("amount"));			
+			//double amount = 0;
 			Date date = null;
+			System.out.println(row.getString("date") + "  " + row.getString("amount"));
+			double amount = 0;
 			
+			try{
+				amount = Double.parseDouble(row.getString("amount"));			
+			}
+			catch(Exception e)
+			{
+				amount = 0;
+				System.out.println("Foda-se");
+			}
 			try {
+
 				String dateToConvert = row.getString("date").substring(0, 10);
 				Date d1 = sdfo.parse(dateToConvert);
 				date = d1;
-			} catch (ParseException e) {
+			} catch (Exception e) {
 				// Ignore Error
 			}
-			
+			System.out.print(i);
+			System.out.print("  ");
+			System.out.println(row.getString("name") + "  " + row.getString("expense_description") + " " + row.getString("provider") +
+				" " + row.getString("date") + "  " + row.getString("amount"));	
 			br = new BufferRow(row.getString("name"), row.getString("expense_description"), 
 					row.getString("provider"), date, amount);
 			break;
+		}
+		if(br == null)
+		{
+			br = new BufferRow("SomeName", "SomeDescription", "SomeProvider", null, 0.0);
+			System.out.print(i);
+			System.out.print("  ");		
+			System.out.println("NULLLLLL");
 		}
 		return br;
 	}
